@@ -13,7 +13,8 @@ public class Main {
         //clasificadorNumeros();
         //diasDelMes();
         //menu();
-        average();
+        //average();
+        bisiestYear();
     }
 
     public static void calculadora(Scanner scanner)
@@ -284,6 +285,41 @@ public class Main {
 
     public static void average()
     {
+        float note1, note2, note3, average;
 
+        note1 = Float.parseFloat(JOptionPane.showInputDialog( null,"Ingrese la primera nota entre 1 y 10"));
+        note2 = Float.parseFloat(JOptionPane.showInputDialog( null,"Ingrese la segunda nota entre 1 y 10"));
+        note3 = Float.parseFloat(JOptionPane.showInputDialog( null,"Ingrese la tercera nota entre 1 y 10"));
+
+        average = (note1 + note2 + note3)/3;
+
+        if(average >= 6)
+        {
+            JOptionPane.showMessageDialog(null,"Aprobaste con un promedio de " + String.format("%.2f", average) + "!!");
+            return;
+        }
+
+        JOptionPane.showMessageDialog(null,"Reprobaste con un promedio de " + String.format("%.2f", average));
+
+    }
+
+    /*
+    * Escribe un programa que le pida al usuario que ingrese un año y determine si es un año bisiesto o
+      no. Recuerda que un año es bisiesto si es divisible entre 4, excepto aquellos que son divisibles entre
+      100, a menos que también sean divisibles entre 400.*/
+    public static void bisiestYear()
+    {
+        int year = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el año a verificar"));
+
+        boolean isBisiest = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+
+        if (isBisiest)
+        {
+            JOptionPane.showMessageDialog(null,"El año" + year + " es Bisiesto");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"El año " + year + " NO! es Bisiesto");
+        }
     }
 }
