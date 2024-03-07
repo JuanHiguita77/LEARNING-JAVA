@@ -1,0 +1,5 @@
+
+
+Interfaces:
+
+Crea una interfaz Imprimible con un método imprimir(). Implementa esta interfaz en las clases Persona y Estudiante para que puedan imprimir su información.
