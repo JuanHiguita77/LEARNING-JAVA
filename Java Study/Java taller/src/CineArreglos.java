@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Ejercicio02 {
+public class CineArreglos {
     public static void main(String[] args){
         /*Sistema de reservas de un teatro donde se represente con booleanos
         * asientos ocupados o disponibles */

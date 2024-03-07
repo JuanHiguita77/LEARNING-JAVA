@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-public class Main {
+public class Utils {
     public static void main(String[] args)
     {
         Scanner scanner = new Scanner(System.in);
