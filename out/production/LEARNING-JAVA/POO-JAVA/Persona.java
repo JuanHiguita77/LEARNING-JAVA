@@ -2,7 +2,7 @@
 Incluye métodos específicos para manejar estos atributos.*/
 interface imprimir
 {
-    void imprimit();
+    void imprimir();
 }
 
 public class Persona
