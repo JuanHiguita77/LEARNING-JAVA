@@ -12,7 +12,7 @@ public class MainCuentaBancaria
         banco(banco, scanner);
     }
 
-    public static void banco(CuentaBancaria banco, Scanner scanner)
+    public sta tic void banco(CuentaBancaria banco, Scanner scanner)
     {
         String titular;
         double dinero, option;
