@@ -1,15 +1,49 @@
-2024-03-09 19:56:52.698 --- [Debug: #### InitBugplat ]
-2024-03-09 19:56:52.844 --- [Debug: ---------------------------------Start---------------------------- ]
-2024-03-09 19:56:52.845 --- [Debug: SplashScreen Start. ]
-2024-03-09 19:56:53.327 --- [Debug: Load Image Plugn. ]
-2024-03-09 19:56:54.067 --- [Debug: Load WsDataRecoveryLib.dll. ]
-2024-03-09 19:56:55.079 --- [Debug: Init WsDataRecoveryLib.dll. ]
-2024-03-09 19:56:57.318 --- [Debug: Init InitCBSCustomized. ]
-2024-03-09 19:56:58.263 --- [Debug: MainForm Created. ]
-2024-03-09 19:56:59.874 --- [Debug: IP adderess is 192.168.0.18 ]
-2024-03-09 19:56:59.892 --- [Debug: WizardFrame Create. ]
-2024-03-09 19:56:59.914 --- [Debug: DiskFrame Create. ]
-2024-03-09 19:56:59.930 --- [Warning: QThread::setPriority: Cannot set priority, thread is not running]
-2024-03-09 19:57:00.118 --- [Debug: ScanFrame Create. ]
-2024-03-09 19:57:00.184 --- [Warning: Could not parse stylesheet of widget 0x9c536f0]
-2024-03-09 19:57:47.376 --- [Debug: [m_pDiskFrame->GetDeviceList counts i
+public class Empleado
+{
+    private String nombre, posicion;
+    private double salario, id;
+
+    public Empleado(String nombre, String posicion, double salario, int id) {
+        this.nombre = nombre;
+        this.posicion = posicion;
+        this.salario = salario;
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(String posicion) {
+        this.posicion = posicion;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    public double getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Double salarioModify(double porcentaje)
+    {
+        return salario * (porcentaje/100) + salario;
+    }
+}
