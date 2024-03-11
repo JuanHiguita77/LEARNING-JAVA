@@ -1,20 +1,12 @@
-import java.util.ArrayList;
-import java.util.List;
+public abstract class Producto {
+    private int id;
+    private String nombre;
+    private double precio;
 
-public class Producto
-{
-    /*Control de Stock: Crea un sistema para gestionar el stock de productos en
-    un almacén. Deberás tener una clase Producto con atributos como id,
-    descripción, cantidad en stock. Añade métodos para agregar o quitar
-    productos del stock, y para verificar la cantidad actual de un producto.*/
-
-    private int id, cantidadStock;
-    private String descripcion;
-
-    public Producto(int id, int cantidadStock, String descripcion) {
+    public Producto(int id, String nombre, double precio) {
         this.id = id;
-        this.cantidadStock = cantidadStock;
-        this.descripcion = descripcion;
+        this.nombre = nombre;
+        this.precio = precio;
     }
 
     public int getId() {
@@ -25,47 +17,19 @@ public class Producto
         this.id = id;
     }
 
-    public int getCantidadStock() {
-        return cantidadStock;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCantidadStock(int cantidadStock)
-    {
-        this.cantidadStock = cantidadStock;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getDescripcion()
-    {
-        return descripcion;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setDescripcion(String descripcion)
-    {
-        this.descripcion = descripcion;
-    }
-
-    public void agregarProducts(List<Producto> stock, Producto producto)
-    {
-        stock.add(producto);
-        System.out.println("Producto agregado ---> " + producto.getDescripcion());
-    }
-
-    public void eliminarProducto(List<Producto> stock, int id)
-    {
-
-        stock.remove(id);
-        System.out.println("Elemento #" + (this.getId()-1) + " eliminado!");
-
-    }
-
-    public void verificarStock(List<Producto> stock)
-    {
-        int i = 1;
-        System.out.println("Cantidad en el stock: " + this.getCantidadStock());
-
-        for(Producto product : stock)
-        {
-            System.out.println("ID #" + i++ +  " --- Descripcion: " + product.getDescripcion());
-        }
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 }
