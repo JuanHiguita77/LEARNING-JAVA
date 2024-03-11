@@ -76,7 +76,8 @@ public class MainProducto
         }
         catch (Exception e)
         {
-            System.out.println("Ingresaste mal un Dato!" + e.getMessage());
+            System.out.println("Ingresaste mal un Dato --- Error: " + e);
+            administrar(Scanner scanner, List<Producto> listaProductos);
         }
     }
 }
