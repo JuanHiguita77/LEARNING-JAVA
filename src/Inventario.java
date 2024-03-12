@@ -2,14 +2,14 @@ import java.util.ArrayList;
 
 public class Inventario {
 
-    private ArrayList<Producto> listaProductos;
+    private ArrayList<ProductoEspecifico> listaProductos;
 
     public Inventario() {
         this.listaProductos = new ArrayList<>();
     }
 
     //metodo para añadir producto
-    public void agregarProducto(Producto producto){
+    public void agregarProducto(ProductoEspecifico producto){
         this.listaProductos.add(producto);
     }
 
@@ -30,10 +30,10 @@ public class Inventario {
 
     //metodo para listar los productos
     public void listarProductos(){
-        for (Producto producto : this.listaProductos){
-            System.out.println( "ID "+producto.getId()+
-                    "Nombre: "+producto.getNombre()+
-                    "Precio: "+producto.getPrecio());
+        for (ProductoEspecifico producto : this.listaProductos){
+            System.out.println(String.format("ID #%d | Nombre: %s | Precio: %.2f | Marca: %s | Categoría: %s",
+                    producto.getId(), producto.getNombre(), producto.getPrecio(),
+                    producto.getMarca(), producto.getCategoria()));
         }
     }
 
