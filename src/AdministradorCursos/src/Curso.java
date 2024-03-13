@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Curso
 {
@@ -44,7 +45,7 @@ public class Curso
         String nombreEst = scanner.nextLine();
 
         System.out.println("Ingrese el email del estudiante");
-        String email = scanner.nextLine();
+        String email = scanner.next();
 
         Estudiante estudiante = new Estudiante(index, nombreEst, email);
         index++;
@@ -69,11 +70,11 @@ public class Curso
         }
     }
 
-    public void eliminarEstudiante(scanner)
+    public void eliminarEstudiante(Scanner scanner)
     {
         this.listarEstudiantes();
 
-        System.out.println("Ingrese el id a eliminar");
+        System.out.println("Ingrese el id del estudiante a eliminar");
         int id = scanner.nextInt();
 
         boolean eliminadoEst = listaEstudiantes.removeIf(estudiante -> estudiante.getId() == id);

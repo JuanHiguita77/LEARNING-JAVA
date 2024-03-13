@@ -18,15 +18,16 @@ public class Main {
             {
                 case 1:
                     int option1;
-                    System.out.println("""
+
+                    do
+                    {
+                        System.out.println("""
                                 MENU ADMIN ESTUDIANTES
                                 1 - Agregar Estudiante
                                 2 - Listar Estudiantes
                                 3 - Eliminar por ID
                                 4 - SALIR """);
-                    option1 = scanner.nextInt();
-                    do
-                    {
+                        option1 = scanner.nextInt();
                         switch (option1)
                         {
                             case 1:
@@ -35,9 +36,10 @@ public class Main {
                                 String codigo =  scanner.next();
 
                                 Curso curso = gestion.buscarCursoPorCodigo(codigo);
+
                                 if (curso == null)
                                 {
-                                    System.out.println("EL codigo ingresado no es valido");
+                                    System.out.println("El codigo ingresado no es valido");
                                 }
                                 else
                                 {
@@ -46,36 +48,40 @@ public class Main {
                                 }
                                 break;
                             case 2:
-                                System.out.println("Ingrese el codigo del curso donde ingresaras el nuevo estudiante");
-                                codigo =  scanner.next();
-                                curso = gestion.listarCursos(scanner);
+                                    gestion.listarCursos();
+                                    System.out.println("Ingrese el codigo del curso donde va a listar los estudiantes");
+                                    codigo = scanner.next();
 
-                                if (curso == null)
-                                {
-                                    System.out.println("EL codigo ingresado no es valido");
-                                }
-                                else
-                                {
-                                    //Sacamos el metodo de agregar estudiante atravez del curso generado por la consulta
-                                    curso.listarEstudiantes();
-                                }
+                                    curso = gestion.buscarCursoPorCodigo(codigo);
+
+                                    if (curso == null)
+                                    {
+                                        System.out.println("No se encontro el curso");
+                                    }
+                                    else
+                                    {
+                                        curso.listarEstudiantes();
+                                    }
+                                    
                                 break;
 
-                           /* case 3:
-                                System.out.println("Ingrese el codigo a buscar");
-                                String codigo = scanner.next();
-                                Curso curso = gestion.buscarCursoPorCodigo(codigo);
+                           case 3:
+                                gestion.listarCursos();
+                                System.out.println( "Ingrese el codigo del curso donde va a eliminar el estudiante");
+                                codigo = scanner.next();
 
-                                if(curso == null)
+                                curso = gestion.buscarCursoPorCodigo(codigo);
+
+                                if (curso != null)
                                 {
-                                    System.out.println("No existe cursos con este codigo");
+                                    curso.eliminarEstudiante(scanner);
                                 }
                                 else
                                 {
-                                    System.out.println(curso.toString());
+                                    System.out.println("Curso no encontrado!");
                                 }
 
-                                break;*/
+                                break;
                             case 4:
                                 System.out.println("SALIENDO...");
                                 break;
