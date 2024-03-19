@@ -26,15 +26,15 @@ public class ConfigDB
             conexion = (Connection) DriverManager.getConnection(url, usuario, contraseña);
             System.out.println("Conexion realizada");
 
+            /*
             Statement sentencia = conexion.createStatement();
 
-            ResultSet resultado = sentencia.executeQuery("SELECT * FROM empleados");
+            ResultSet resultado = sentencia.executeQuery("SELECT * FROM coder");
 
             while (resultado.next())
             {
                 System.out.println(resultado.getString("nombre"));
-            }
-
+            }*/
 
         }//Fallo por driver
         catch (ClassNotFoundException e)
@@ -54,10 +54,11 @@ public class ConfigDB
     {
         try
         {
-            if (conexion != null) conexion.close();
-
-            sentencia.close();
-            resultado.close();
+            if (conexion != null)
+            {
+                conexion.close();
+                System.out.println("Conexion finalizada");
+            }
         }
         catch (SQLException e)
         {
