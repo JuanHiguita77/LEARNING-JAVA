@@ -35,7 +35,7 @@ public class ConfigDB
                 System.out.println(resultado.getString("nombre"));
             }
 
-            closeConnection();
+
         }//Fallo por driver
         catch (ClassNotFoundException e)
         {
@@ -50,7 +50,7 @@ public class ConfigDB
     }
 
     //Cerrar conexion
-    public void closeConnection()
+    public static void closeConnection()
     {
         try
         {
