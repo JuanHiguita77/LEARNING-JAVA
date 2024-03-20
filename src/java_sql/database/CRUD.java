@@ -2,14 +2,14 @@ package database;
 
 import java.util.List;
 
-public interface CRUD
-{
-    //Pasamos los datos que nos llegan, se usa objetos para generalizar
-    public Object insert(Object object);
+public interface CRUD {
 
+    public Object insert(Object obj);
     public List<Object> findAll();
 
-    public boolean update(Object object);
+    public boolean update(Object obj);
 
-    public void delete(Object object);
+    public boolean delete(Object obj);
+
+    //public Object searchById(int id);
 }

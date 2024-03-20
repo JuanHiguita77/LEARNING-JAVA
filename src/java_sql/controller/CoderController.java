@@ -5,44 +5,102 @@ import model.CoderModel;
 
 import javax.swing.*;
 
-public class CoderController
-{
-    public static void getAll()
-    {
-        CoderModel coderModel = new CoderModel();
+public class CoderController {
 
-        String listCoders = " CODERS LIST \n ";
-        //Usamos la lista que nos devuelve la funcion
-        for ( Object coder : coderModel.findAll() )
-        {
-            //TIpo Objeto para generalizar y luego se convierte
-            Coder newCoder = (Coder) coder;
+    public static void getAll(){
+        CoderModel objModel = new CoderModel();
+        String listCoders = "🤷‍♂️ CODER LIST \n";
 
-            listCoders += newCoder.toString();
+        for (Object iterador: objModel.findAll()){
+            //Convertimos del Object a Coder
+            Coder objCoder = (Coder) iterador;
+            listCoders += objCoder.toString() + "\n";
         }
 
-        JOptionPane.showMessageDialog(null, listCoders);
+        JOptionPane.showMessageDialog(null,listCoders);
     }
 
-    public static void insertNew()
+    public static void create(){
+        //Usamos el modelo
+        CoderModel objCoderModel = new CoderModel();
+
+        //Pedimos los datos al usuario
+        String name = JOptionPane.showInputDialog("Insert name");
+        String clan = JOptionPane.showInputDialog("Insert clan");
+        int age = Integer.parseInt(JOptionPane.showInputDialog("Insert age"));
+
+        //Creamos una instancia de coder
+        Coder objCoder = new Coder();
+        objCoder.setClan(clan);
+        objCoder.setAge(age);
+        objCoder.setName(name);
+
+        //Llamamos al método de insercción y guardamos el objeto que retorna en coder previamente instanciado, debemos castearlo.
+        objCoder = (Coder) objCoderModel.insert(objCoder);
+
+        JOptionPane.showMessageDialog(null, objCoder.toString());
+    }
+
+
+    //Solo listamos y lo devolvemos
+    public static String getCodersList()
+    {
+        CoderModel objModel = new CoderModel();
+        String listCoders = "🤷‍♂️ CODER LIST \n";
+
+        for (Object iterador: objModel.findAll()){
+            //Convertimos del Object a Coder
+            Coder objCoder = (Coder) iterador;
+            listCoders += objCoder.toString() + "\n";
+        }
+
+        return listCoders;
+    }
+    public static void delete()
     {
         CoderModel coderModel = new CoderModel();
 
-        String name = JOptionPane.showInputDialog("Ingrese el nombre del nuevo coder");
+        String codersList = getCodersList();
+        int id = Integer.parseInt(JOptionPane.showInputDialog(codersList + "Ingrese el ID a eliminar"));
 
-        int age = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la edad del coder"));
+        //Buscamos primero si existe
+        Coder coder = coderModel.findById(id);
 
-        String clan = JOptionPane.showInputDialog("Ingrese el clan del nuevo coder");
+        if (coder == null)
+        {
+            JOptionPane.showInputDialog(null,"El coder no se encontró");
+        }
+        else
+        {
+            int confirm = JOptionPane.showConfirmDialog(null,"Esta seguro de eliminar a " + coder.toString());
 
-        Coder newCoder = new Coder();
+            if (confirm == 1)
+            {
+                JOptionPane.showMessageDialog(null,"Cancelado!");
+            }
+            else
+            {
+                coderModel.delete(coder);
+                JOptionPane.showMessageDialog(null, "Se eliminó con exito --> " + coder.toString());
+            }
+        }
+    }
 
-        newCoder.setNombre(name);
-        newCoder.setClan(clan);
-        newCoder.setAge(age);
+    public static void findByName()
+    {
+        CoderModel coderModel = new CoderModel();
 
-        newCoder = (Coder) coderModel.insert(newCoder);
+        String searchName = JOptionPane.showInputDialog("Ingrese el nombre a buscar");
 
-        JOptionPane.showMessageDialog(null, newCoder.toString());
+        String listCoders = "🤷‍LISTA DE CODERS ENCONTRADOS \n";
 
+        for (Object iterador: coderModel.findByName(searchName))
+        {
+            //Convertimos del Object a Coder
+            Coder objCoder = (Coder) iterador;
+            listCoders += objCoder.toString() + "\n";
+        }
+
+        JOptionPane.showMessageDialog(null ,listCoders);
     }
 }

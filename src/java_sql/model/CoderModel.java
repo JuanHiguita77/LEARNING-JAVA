@@ -5,6 +5,7 @@ import database.ConfigDB;
 import entity.Coder;
 
 import javax.swing.*;
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,96 +13,234 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoderModel implements CRUD
-{
+public class CoderModel implements CRUD {
 
     @Override
-    public Object insert(Object object) {
+    public Object insert(Object obj) {
 
-        Connection  conexionOpen = ConfigDB.conexionAbierta();
+        //1. Abrimos la conexión
+        Connection objConnection = ConfigDB.openConnection();
 
-        Coder coder = (Coder) object;
+        //2. Convertir el obj que llegó a Coder
+        Coder objCoder =(Coder) obj;
 
-        try
-        {
-            String sqlQuery = "INSERT INTO coder (nombre, age, clan) VALUES (?, ?, ?);";
+        try {
+            //3. Escribir el SQl
+            String sql = "INSERT INTO coder (name,age,clan) VALUES (?,?,?);";
 
-            //Retorna los ID automaticas de la base de datos con el returnkeys
-            PreparedStatement preparedStatement = conexionOpen.prepareStatement(sqlQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+            //4. Preparar el Statement, además agregar la propiedad  RETURN_GENERATED_KEYS que hace que la sentencia SQL nos retorne los id generados por la Base de datos
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
 
-            //Pasando datos a la query
-            preparedStatement.setString(1, coder.getNombre());
-            preparedStatement.setInt(2, coder.getAge());
-            preparedStatement.setString(3, coder.getClan());
+            //5. Asignar valor a los ? ? ?
+            objPrepare.setString(1,objCoder.getName());
+            objPrepare.setInt(2,objCoder.getAge());
+            objPrepare.setString(3,objCoder.getClan());
 
-            preparedStatement.execute();
+            //6. Ejecutar el Query
+            objPrepare.execute();
 
-            ResultSet resultado = preparedStatement.getGeneratedKeys();
+            //7. Obtener el resultado con los id (LLaves generadas)
+            ResultSet objRest = objPrepare.getGeneratedKeys();
 
-            while (resultado.next())
-            {
-                //Le asignamos el id que es el dato que falta
-                coder.setId(resultado.getInt(1));
+            //8. Iterar mientras haya un registro
+            while (objRest.next()){
+                //Podemos obtener el valor tambien con indices
+                objCoder.setId(objRest.getInt(1));
             }
 
-            JOptionPane.showMessageDialog(null, "New coder Insert Successfully");
+            JOptionPane.showMessageDialog(null, "Coder insertion was  successful.");
 
-        }catch (SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, "Error en las queries SQL: " + e.getMessage());
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null,e.getMessage());
+
         }
 
         ConfigDB.closeConnection();
 
-        return coder;
+        return objCoder;
     }
 
     @Override
     public List<Object> findAll() {
+        // 1. Crear lista para guardar lo que nos devuelve la base de datos
         List<Object> listCoders = new ArrayList<>();
 
-        Connection  conexionOpen = ConfigDB.conexionAbierta();
+        // 2. Abrir la conexión
+        Connection objConnection = ConfigDB.openConnection();
 
-        try
-        {
-            String  sqlQuery = "SELECT * FROM coder;";
+        try {
+            // 3. Escribimos el query en Sql
+            String sql = "SELECT * FROM coder;";
 
-            PreparedStatement preparedStatement = conexionOpen.prepareStatement(sqlQuery);
+            //4. Usar el prepareStatement ----  Se le pasa el dato al statement
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql);
 
-            ResultSet result = preparedStatement.executeQuery();
+            //5. Ejecutar el query y obtener el resultado (ResulSet)
 
-            while (result.next())
-            {
-                Coder coder = new Coder();
+            ResultSet objResult = objPrepare.executeQuery();
 
-                coder.setId(result.getInt("id"));
-                coder.setNombre(result.getString("nombre"));
-                coder.setAge(result.getInt("age"));
-                coder.setClan(result.getString("clan"));
+            // 6. Mientras haya un resultado siguiente hacer:
+            while (objResult.next()){
 
-                listCoders.add(coder);
+                // 6.1 Crear un coder
+                Coder objCoder = new Coder();
 
+                //6.2 Llenar el objeto con la información de la base de datos del objeto ques está iterando
+                objCoder.setName(objResult.getString("name"));
+                objCoder.setAge(objResult.getInt("age"));
+                objCoder.setId(objResult.getInt("id"));
+                objCoder.setClan(objResult.getString("clan"));
+
+                //6.3 Agregamos el Coder a la lista
+                listCoders.add(objCoder);
             }
-        }
-        catch (SQLException e)
-        {
-            System.out.println("Error " + e.getMessage());
-        }
 
+        }catch (SQLException error){
+            JOptionPane.showMessageDialog(null, error.getMessage());
+        }
+        //Paso 7. Cerrar la conexión
         ConfigDB.closeConnection();
 
         return listCoders;
     }
 
     @Override
-    public boolean update(Object object) {
+    public boolean  delete(Object obj)
+    {
+        Coder coder = (Coder) obj;
 
+        Connection  conexion = ConfigDB.openConnection();
 
-        return newCoder;
+        //Vamos a devolver el resultado de lo que paso si elimino o no
+        boolean isDeleted = false;
+
+        try
+        {
+            String sqlQuery = "DELETE  FROM coder WHERE id = ?;";
+
+            PreparedStatement preparedStatement = conexion.prepareStatement(sqlQuery);
+
+            //Se le pasa el dato al statement
+            preparedStatement.setInt(1, coder.getId());
+
+            //Devuelve un numero para saber a cuantas filas se le hizo el cambio
+            int resultadoFIlasAfectadas = preparedStatement.executeUpdate();
+
+            //Fueron afectadas?
+            if (resultadoFIlasAfectadas > 0)
+            {
+                isDeleted = true;
+                JOptionPane.showMessageDialog(null,"Se actualizaron correctamente las filas " + resultadoFIlasAfectadas);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar");
+            }
+
+        }
+        catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "Error en el Update: " +  e.getMessage());
+        }
+
+        ConfigDB.closeConnection();
+
+        return isDeleted;
     }
 
     @Override
-    public void delete(Object object) {
+    public boolean update(Object obj) {
+        return false;
+    }
 
+    //No viene del CRUD, es propio
+    public Coder findById(int id)
+    {
+        Connection conexion = ConfigDB.openConnection();
+
+        //Global
+        Coder coder = null;
+
+        try
+        {
+            String sqlQuery = "SELECT * FROM coder WHERE id = ?;";
+
+            PreparedStatement preparedStatement = conexion.prepareStatement(sqlQuery);
+
+            //Se le pasa el dato al statement
+            preparedStatement.setInt(1, id);
+
+            //TIpo de dato del jdbc: ResultSet
+            /*
+            * execute: devuelve boolean
+            * executeQuery: Devuelve algo
+            * executeUpdate: Actualiza
+            * */
+
+            ResultSet resultado = preparedStatement.executeQuery();
+
+            if(resultado.next())
+            {
+                coder = new Coder();
+
+                coder.setAge(resultado.getInt("age"));
+                coder.setClan(resultado.getString("clan"));
+                coder.setName(resultado.getString("name"));
+                coder.setId(resultado.getInt("id"));
+            }
+        }
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Hubo un error al buscar el coder");
+        }
+
+        ConfigDB.closeConnection();
+        return coder;
+    }
+
+    public List<Object> findByName(String name)
+    {
+        // 1. Crear lista para guardar lo que nos devuelve la base de datos
+        List<Object> listCoders = new ArrayList<>();
+
+        // 2. Abrir la conexión
+        Connection objConnection = ConfigDB.openConnection();
+
+        try {
+            // 3. Escribimos el query en Sql
+            String sqlQuery = "SELECT *  FROM coder WHERE name LIKE ?;";
+
+            //4. Usar el prepareStatement ----  Se le pasa el dato al statement
+            PreparedStatement preparedStatement = objConnection.prepareStatement(sqlQuery);
+
+            preparedStatement.setString(1, "%" + name + "%");
+
+            //5. Ejecutar el query y obtener el resultado (ResulSet)
+
+            ResultSet resultado = preparedStatement.executeQuery();
+
+            // 6. Mientras haya un resultado siguiente hacer:
+            while (resultado.next()){
+
+                // 6.1 Crear un coder
+                Coder objCoder = new Coder();
+
+                //6.2 Llenar el objeto con la información de la base de datos del objeto ques está iterando
+                objCoder.setName(resultado.getString("name"));
+                objCoder.setAge(resultado.getInt("age"));
+                objCoder.setId(resultado.getInt("id"));
+                objCoder.setClan(resultado.getString("clan"));
+
+                //6.3 Agregamos el Coder a la lista
+                listCoders.add(objCoder);
+            }
+
+        }catch (SQLException error){
+            JOptionPane.showMessageDialog(null, error.getMessage());
+        }
+        //Paso 7. Cerrar la conexión
+        ConfigDB.closeConnection();
+
+        return listCoders;
     }
 }

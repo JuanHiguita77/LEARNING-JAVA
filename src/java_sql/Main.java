@@ -1,37 +1,43 @@
 import controller.CoderController;
 import database.ConfigDB;
+import model.CoderModel;
 
 import javax.swing.*;
 
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
+
         String option = "";
 
-        do
-        {
+        do {
             option = JOptionPane.showInputDialog("""
-                        1 - Listar Coders
-                        2 - Insertar Nuevo Coder
-                        3 - Update Coder
-                        4 - Delete Coder
-                        5 - Get Coder By Name
-                        6 - Exit 
-                        """);
-
-            switch (option)
-            {
+                    1. List Coders.
+                    2. Insert Coder.
+                    3. Update Coder.
+                    4. Delete Coder.
+                    5. Get coder by name.
+                    6. Exit
+                                        
+                    Choose an option:
+                    """);
+            switch (option) {
                 case "1":
                     CoderController.getAll();
-
                     break;
 
                 case "2":
-                        CoderController.insertNew();
+                    CoderController.create();
+                    break;
+                case "4":
+                        CoderController.delete();
+                    break;
+                case "5":
+                        CoderController.findByName();
                     break;
             }
 
-
-        }while(!option.equals("6"));
+        } while (!option.equals("6"));
     }
 }
