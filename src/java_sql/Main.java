@@ -30,6 +30,9 @@ public class Main {
                 case "2":
                     CoderController.create();
                     break;
+                case "3":
+                    CoderController.update();
+                    break;
                 case "4":
                         CoderController.delete();
                     break;

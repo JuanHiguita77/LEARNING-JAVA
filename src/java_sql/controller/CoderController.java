@@ -4,20 +4,28 @@ import entity.Coder;
 import model.CoderModel;
 
 import javax.swing.*;
+import java.util.List;
 
 public class CoderController {
 
     public static void getAll(){
-        CoderModel objModel = new CoderModel();
-        String listCoders = "🤷‍♂️ CODER LIST \n";
+        CoderModel coderModel = new CoderModel();
 
-        for (Object iterador: objModel.findAll()){
+        JOptionPane.showMessageDialog(null, getAll(coderModel.findAll()));
+    }
+
+    //Listar factorizado para todo
+    public static String getAll(List<Object> objectList)
+    {
+        String list = "🤷‍♂️ CODER LIST \n";
+
+        for (Object iterador: objectList){
             //Convertimos del Object a Coder
             Coder objCoder = (Coder) iterador;
-            listCoders += objCoder.toString() + "\n";
+            list += objCoder.toString() + "\n";
         }
 
-        JOptionPane.showMessageDialog(null,listCoders);
+        return list;
     }
 
     public static void create(){
@@ -102,5 +110,33 @@ public class CoderController {
         }
 
         JOptionPane.showMessageDialog(null ,listCoders);
+    }
+
+    public static void update()
+    {
+        CoderModel coderModel = new CoderModel();
+
+        String listCoders = getCodersList();
+
+        int idUpdated = Integer.parseInt( JOptionPane.showInputDialog(listCoders + "Enter ID coder to edit"));
+
+        Coder coder = coderModel.findById(idUpdated);
+
+        if (coder == null)
+        {
+            JOptionPane.showMessageDialog(null, "No se encontró el coder");
+        }
+        else
+        {
+            String name = JOptionPane.showInputDialog(null, "Ingrese el nombre del coder de lo contrario dejar tal cual", coder.getName());
+            int age = Integer.parseInt( JOptionPane.showInputDialog("Ingrese el nombre del coder de lo contrario dejar tal cual", String.valueOf(coder.getAge())));//Transformar a string de entero
+            String clan = JOptionPane.showInputDialog("Ingrese el nombre del coder de lo contrario dejar tal cual", coder.getClan());
+
+            coder.setName(name);
+            coder.setAge(age);
+            coder.setClan(clan);
+
+            coderModel.update(coder);
+        }
     }
 }
